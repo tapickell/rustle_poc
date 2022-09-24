@@ -1,6 +1,6 @@
 # RustlePoc
 
-**A POC using ELixir -> Rustler -> Rust**
+**A POC using Elixir -> Rustler -> Rust**
 
 ### NOTES
   There seem to be a couple of different approaches to error handling with a Rust NIF.
@@ -18,16 +18,19 @@
    test/rustle_poc_test.exs:9: (test)
    ```
 
-  I did not find this helpful at all to the Elixir calling code, nor the developer perspective to debug the error
+  I did not find this helpful at all to the Elixir calling code
 
-  A more Elixir way is to match all error cases in Rust code and return {:ok, _} | {:error, _}
+  A more Elixir way is to match all error cases in Rust code and return `{:ok, _} | {:error, _}`
+  This gives the calling code a nice expectation of what can happen and `Ruslter` makes it simple to return
+  tuples like this.
+
   I think another ELixir way would be to return Elixir Error structs instead of and error tuple
 
   I also think there may be a more in between way that handles the errors at this level
-  and can return {:ok, _} | {:error, _}
-  Either way somehwere has to handle the errors and return something usable back.
+  and can return `{:ok, _} | {:error, _}`
+  Either way some where has to handle the errors and return something usable back.
 
-  I would like find a better way in Rust, I am not fond of the Javascript style FLying V formation
+  I would like find a better way in Rust, I am not fond of the Javascript style Flying V formation
  ![](https://s3-us-west-2.amazonaws.com/courses-images/wp-content/uploads/sites/1865/2017/05/04203601/Screen-Shot-2016-06-21-at-10.52.04-AM-300x186.png)
 
 ## Installation
