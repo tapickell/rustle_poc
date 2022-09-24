@@ -11,9 +11,6 @@ mod atoms {
     }
 }
 
-// Flying V Formation :joy:
-// ![](https://s3-us-west-2.amazonaws.com/courses-images/wp-content/uploads/sites/1865/2017/05/04203601/Screen-Shot-2016-06-21-at-10.52.04-AM-300x186.png)
-//
 #[rustler::nif]
 fn country_code_for_ip_address(ip_address: String, db_path: String) -> Result<String, Atom> {
     match maxminddb::Reader::open_readfile(db_path) {
