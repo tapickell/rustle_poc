@@ -1,11 +1,11 @@
 [package]
-name = "MmdbClient"
+name = "mmdb_client"
 version = "0.1.0"
 authors = []
 edition = "2018"
 
 [lib]
-name = "MmdbClient"
+name = "mmdb_client"
 path = "src/lib.rs"
 crate-type = ["cdylib"]
 

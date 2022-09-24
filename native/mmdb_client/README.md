@@ -8,7 +8,7 @@
 
 ```elixir
 defmodule RustlePoc do
-  use Rustler, otp_app: :rustle_poc, crate: "MmdbClient"
+  use Rustler, otp_app: :rustle_poc, crate: "mmdb_client"
 
   # When your NIF is loaded, it will override this function.
   def add(_a, _b), do: :erlang.nif_error(:nif_not_loaded)
