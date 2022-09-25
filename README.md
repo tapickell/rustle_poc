@@ -33,6 +33,10 @@
   I would like find a better way in Rust, I am not fond of the Javascript style Flying V formation
  ![](https://s3-us-west-2.amazonaws.com/courses-images/wp-content/uploads/sites/1865/2017/05/04203601/Screen-Shot-2016-06-21-at-10.52.04-AM-300x186.png)
 
+  After getting feedback from a community member I have learned a better pattern for the Rust side that made for an easy refactor.
+  Instead of matching on every Result case `.map_err()` and `?` can be used in conjunction to either unwrap the `Ok` or Map the `Err` to the 
+  appropriate api error. I looked at this function earlier as I was trying to figure out a better pattern but did not understand how this worked.
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
