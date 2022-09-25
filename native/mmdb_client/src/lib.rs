@@ -1,6 +1,6 @@
 use maxminddb::geoip2;
 use rustler::Atom;
-//use std::net::IpAddr;
+use std::net::IpAddr;
 
 mod atoms {
     rustler::atoms! {
@@ -13,27 +13,22 @@ mod atoms {
 
 #[rustler::nif]
 fn country_code_for_ip_address(ip_address: String, db_path: String) -> Result<String, Atom> {
-    match maxminddb::Reader::open_readfile(db_path) {
-        Ok(reader) => {
-            match ip_address.parse() {
-                Ok(ip) => {
-                    match reader.lookup::<geoip2::City>(ip) {
-                        Ok(city) => match city.country {
-                            Some(geoip2::country::Country {
-                                geoname_id: _,
-                                is_in_european_union: _,
-                                names: _,
-                                iso_code: Some(country_code),
-                            }) => Ok(country_code.to_string()),
-                            _ => Err(atoms::country_code_not_found_in_city_data()),
-                        },
-                        _ => Err(atoms::address_not_found_in_database()), // :shrug: what errors can happen here??
-                    }
-                }
-                _ => Err(atoms::ip_address_invalid()), // AddrParseError(Ip)
-            }
-        }
-        _ => Err(atoms::database_not_found()), // IoError("No such file or directory (os error 2)")
+    let reader =
+        maxminddb::Reader::open_readfile(db_path).map_err(|_| atoms::database_not_found())?;
+    let ip: IpAddr = ip_address
+        .parse()
+        .map_err(|_| atoms::ip_address_invalid())?;
+
+    let city: geoip2::City = reader
+        .lookup(ip)
+        .map_err(|_| atoms::address_not_found_in_database())?;
+
+    match city.country {
+        Some(geoip2::country::Country {
+            iso_code: Some(country_code),
+            ..
+        }) => Ok(country_code.to_string()),
+        _ => Err(atoms::country_code_not_found_in_city_data()),
     }
 }
 
